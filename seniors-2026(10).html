@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>התותים של 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#1a0608;--bg2:#200a0c;--bg3:#150406;
+  --border:#5a1e24;--border2:#3a1018;
+  --red:#cc3344;--red-bright:#ff6070;
+  --pink:#ff8090;--pink-soft:#f08090;
+  --text:#ffe8ea;--text-dim:#8a5860;--text-muted:#4a2028;
+}
+html,body{height:100%;overflow:hidden;font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);direction:rtl;user-select:none;}
+
+#vfx-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+.wave-wrap{position:fixed;bottom:0;left:0;right:0;z-index:0;pointer-events:none;height:160px;overflow:hidden;}
+.wave-wrap svg{width:200%;height:100%;animation:wave-scroll 8s linear infinite;}
+@keyframes wave-scroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+/* ── ZOOM TRANSITION SYSTEM ── */
+.slider{position:relative;z-index:1;width:100vw;height:100vh;overflow:hidden;}
+.slide{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transform:scale(1.08);
+  transition:opacity 0.5s ease, transform 0.5s cubic-bezier(0.22,1,0.36,1);
+}
+.slide.active{opacity:1;pointer-events:all;transform:scale(1);}
+.slide.exit-zoom{opacity:0;transform:scale(0.92);transition:opacity 0.35s ease,transform 0.35s ease;}
+
+/* bg texture */
+.slide::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,100,100,.055) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;z-index:0;}
+.slide::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 50% 0%,rgba(220,50,70,.18) 0%,transparent 65%),radial-gradient(ellipse 60% 40% at 50% 100%,rgba(180,20,40,.12) 0%,transparent 60%);pointer-events:none;z-index:0;}
+
+/* ── TITLE SLIDE ── */
+.slide-title .content{position:relative;z-index:1;text-align:center;padding:40px 32px;display:flex;flex-direction:column;align-items:center;}
+.berry-hero{font-size:clamp(72px,16vw,130px);line-height:1;margin-bottom:24px;animation:bob 3s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-3deg);}50%{transform:translateY(-12px) rotate(3deg);}}
+.title-eyebrow{font-size:clamp(11px,2vw,14px);font-weight:500;color:var(--pink-soft);letter-spacing:.12em;margin-bottom:16px;}
+.title-main{font-size:clamp(36px,8vw,80px);font-weight:900;line-height:1.1;color:var(--text);margin-bottom:8px;}
+.title-main em{font-style:normal;color:var(--red-bright);}
+.title-year{font-size:clamp(18px,4vw,28px);font-weight:400;color:var(--text-dim);margin-bottom:48px;}
+.swipe-hint{display:flex;align-items:center;gap:10px;color:var(--text-muted);font-size:14px;animation:pulse 2.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:.5;transform:translateX(0);}50%{opacity:1;transform:translateX(-6px);}}
+
+/* ── SENIOR SLIDE ── */
+.slide-senior .content{
+  position:relative;z-index:1;
+  width:100%;height:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:16px 16px 64px;
+}
+.senior-number{font-size:11px;font-weight:500;color:var(--text-muted);letter-spacing:.1em;margin-bottom:10px;}
+
+/* BADGE / TAG */
+.senior-badge{
+  display:inline-block;
+  font-size:11px;font-weight:700;
+  color:var(--red-bright);
+  background:rgba(255,96,112,.1);
+  border:1px solid rgba(255,96,112,.3);
+  border-radius:20px;
+  padding:3px 14px;
+  margin-bottom:8px;
+  letter-spacing:.05em;
+}
+
+.photos-row{display:flex;gap:10px;margin-bottom:14px;justify-content:center;align-items:flex-start;}
+.photo-card{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.photo-frame{
+  width:clamp(88px,23vw,140px);
+  aspect-ratio:3/4;
+  border-radius:14px;
+  overflow:hidden;
+  border:2px solid var(--border);
+  background:var(--bg3);
+  box-shadow:0 8px 32px rgba(0,0,0,0.5);
+}
+.photo-frame img{width:100%;height:100%;object-fit:cover;display:block;}
+.photo-empty{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:28px;opacity:.12;}
+.photo-tag{font-size:10px;font-weight:500;color:var(--pink);background:rgba(204,51,68,.13);border:1px solid var(--border2);border-radius:20px;padding:3px 10px;white-space:nowrap;}
+
+.senior-name{font-size:clamp(20px,4.5vw,30px);font-weight:900;color:var(--text);text-align:center;margin-bottom:8px;line-height:1.1;}
+.senior-text{font-size:clamp(11px,1.9vw,13px);line-height:1.85;color:var(--text-dim);text-align:center;max-width:480px;padding:0 8px;margin-bottom:14px;}
+
+/* ── VOTE BUTTONS ── */
+.vote-row{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:2px;}
+.vote-count{display:none;}
+.vote-row.revealed .vote-count{display:inline;}
+.vote-pct{font-size:9px;color:var(--text-muted);display:none;}
+.vote-row.revealed .vote-pct{display:block;}
+.vote-hint{font-size:9px;color:var(--text-muted);margin-top:6px;}
+.vote-btn:disabled{cursor:default;opacity:0.85;}
+.vote-bar-wrap{width:100%;height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;margin-top:4px;display:none;}
+.vote-row.revealed .vote-bar-wrap{display:block;}
+.vote-bar-fill{height:100%;background:var(--red-bright);border-radius:2px;transition:width .5s ease;}
+
+/* ── QUIZ ── */
+.quiz-btn{background:rgba(255,96,112,.12);border:1px solid rgba(255,96,112,.35);color:var(--red-bright);border-radius:20px;padding:5px 16px;font-size:12px;font-weight:700;font-family:'Heebo',sans-serif;cursor:pointer;transition:background .2s;margin-top:6px;}
+.quiz-btn:hover{background:rgba(255,96,112,.22);}
+.quiz-panel{display:none;width:100%;max-width:480px;background:rgba(20,6,8,.9);border:1px solid var(--border);border-radius:16px;padding:16px 18px;margin-top:8px;text-align:right;}
+.quiz-panel.open{display:block;animation:slideUp .3s cubic-bezier(0.22,1,0.36,1);}
+.quiz-score{font-size:14px;font-weight:700;color:var(--pink);margin-bottom:10px;text-align:center;padding:8px;background:rgba(204,51,68,.1);border-radius:10px;}
+.quiz-q{margin-bottom:14px;}
+.quiz-q-text{font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.quiz-opt{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:8px 10px;font-size:12px;color:var(--text-dim);cursor:pointer;font-family:'Heebo',sans-serif;text-align:right;transition:background .2s,border-color .2s,color .2s;}
+.quiz-opt:hover:not(:disabled){background:rgba(204,51,68,.12);border-color:var(--red);color:var(--text);}
+.quiz-opt.correct{background:rgba(30,100,50,.3);border-color:#3a8a50;color:#7ecf90;}
+.quiz-opt.wrong{background:rgba(150,30,30,.3);border-color:#8a3030;color:#cf7e7e;}
+.quiz-opt:disabled{cursor:default;}
+
+/* ── PHOTO LIGHTBOX ── */
+.photo-frame{cursor:zoom-in;}
+.lightbox-overlay{position:fixed;inset:0;z-index:500;background:rgba(5,1,2,.95);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .25s ease;}
+.lightbox-overlay.open{opacity:1;pointer-events:all;}
+.lightbox-img-wrap{max-width:92vw;max-height:85vh;display:flex;flex-direction:column;align-items:center;gap:14px;transform:scale(0.9);transition:transform .25s ease;}
+.lightbox-overlay.open .lightbox-img-wrap{transform:scale(1);}
+.lightbox-img-wrap img{max-width:92vw;max-height:78vh;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.6);border:2px solid var(--border);object-fit:contain;}
+.lightbox-tag{font-size:13px;font-weight:500;color:var(--pink);background:rgba(204,51,68,.15);border:1px solid var(--border2);border-radius:20px;padding:5px 18px;}
+.lightbox-close{position:fixed;top:18px;left:18px;z-index:501;background:rgba(32,10,12,.85);border:1px solid var(--border);color:var(--pink);width:38px;height:38px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
+.vote-btn{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:7px 14px;
+  cursor:pointer;
+  transition:background .2s,border-color .2s,transform .15s;
+  font-family:'Heebo',sans-serif;
+  min-width:60px;
+}
+.vote-btn:hover{background:rgba(204,51,68,.12);border-color:var(--red);}
+.vote-btn.voted{background:rgba(204,51,68,.18);border-color:var(--red-bright);}
+.vote-btn:active{transform:scale(0.92);}
+.vote-emoji{font-size:20px;line-height:1;}
+.vote-count{font-size:11px;font-weight:700;color:var(--pink);}
+.vote-pct{font-size:9px;color:var(--text-muted);}
+
+/* ── NAV ── */
+.nav-btn{position:fixed;top:50%;transform:translateY(-50%);z-index:100;background:rgba(32,10,12,.75);border:1px solid var(--border);color:var(--pink);width:42px;height:42px;border-radius:50%;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);transition:background .2s,border-color .2s;}
+.nav-btn:hover{background:rgba(60,16,20,.9);border-color:var(--red);}
+.nav-btn.prev{right:14px;}.nav-btn.next{left:14px;}
+.nav-btn:disabled{opacity:.18;cursor:default;}
+
+/* ── DOTS ── */
+.dots{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:100;flex-wrap:wrap;justify-content:center;max-width:90vw;}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--border);transition:background .3s,transform .3s;cursor:pointer;}
+.dot.active{background:var(--red-bright);transform:scale(1.5);}
+
+/* ── TOP BAR ── */
+.top-bar{position:fixed;top:14px;left:14px;z-index:200;display:flex;gap:8px;}
+.top-btn{background:rgba(32,10,12,.85);border:1px solid var(--border);color:var(--pink);padding:7px 13px;border-radius:20px;font-size:12px;font-family:'Heebo',sans-serif;cursor:pointer;backdrop-filter:blur(8px);transition:background .2s;white-space:nowrap;}
+.top-btn:hover{background:rgba(60,16,20,.95);}
+.top-btn.muted{color:var(--text-muted);}
+
+/* ── MUSIC PICKER OVERLAY ── */
+.music-overlay{position:fixed;inset:0;z-index:400;background:rgba(10,2,4,.93);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;}
+.music-overlay.open{opacity:1;pointer-events:all;}
+.music-box{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:28px;width:100%;max-width:420px;display:flex;flex-direction:column;gap:16px;}
+.music-box h2{font-size:17px;font-weight:700;color:var(--pink);margin-bottom:4px;}
+.music-desc{font-size:12px;color:var(--text-muted);}
+.music-options{display:flex;flex-direction:column;gap:8px;}
+.music-option{
+  display:flex;align-items:center;gap:12px;
+  background:var(--bg3);border:1px solid var(--border);border-radius:12px;
+  padding:12px 14px;cursor:pointer;transition:border-color .2s,background .2s;
+}
+.music-option:hover,.music-option.selected{border-color:var(--red);background:rgba(204,51,68,.1);}
+.music-icon{font-size:22px;flex-shrink:0;}
+.music-info{flex:1;text-align:right;}
+.music-name{font-size:13px;font-weight:700;color:var(--text);}
+.music-sub{font-size:11px;color:var(--text-muted);margin-top:2px;}
+.music-check{font-size:16px;color:var(--red-bright);opacity:0;}
+.music-option.selected .music-check{opacity:1;}
+.music-upload-row{display:flex;flex-direction:column;gap:6px;}
+.music-upload-btn{background:var(--bg3);border:1px dashed var(--border);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--text-dim);font-family:'Heebo',sans-serif;cursor:pointer;text-align:center;transition:border-color .2s;}
+.music-upload-btn:hover{border-color:var(--red);}
+.music-actions{display:flex;gap:10px;}
+.music-apply{flex:1;background:var(--red);color:var(--text);border:none;border-radius:10px;padding:11px;font-size:14px;font-weight:500;font-family:'Heebo',sans-serif;cursor:pointer;}
+.music-apply:hover{background:#e0404f;}
+.music-cancel{background:var(--bg3);color:var(--text-dim);border:1px solid var(--border);border-radius:10px;padding:11px 16px;font-size:13px;font-family:'Heebo',sans-serif;cursor:pointer;}
+
+/* ── EDITOR OVERLAY ── */
+.editor-overlay{position:fixed;inset:0;z-index:300;background:rgba(10,2,4,.93);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .3s;}
+.editor-overlay.open{opacity:1;pointer-events:all;}
+.editor-box{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:24px;width:100%;max-width:540px;display:flex;flex-direction:column;gap:14px;}
+.editor-header{display:flex;align-items:center;justify-content:space-between;}
+.editor-header h2{font-size:17px;font-weight:700;color:var(--pink);}
+.editor-close{background:none;border:none;color:var(--text-dim);font-size:22px;cursor:pointer;line-height:1;}
+select{width:100%;background:var(--bg3);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:9px 12px;font-size:14px;font-family:'Heebo',sans-serif;direction:rtl;}
+select:focus{outline:none;border-color:var(--red);}
+.field-group label{display:block;font-size:11px;font-weight:500;color:var(--pink);margin-bottom:5px;}
+.field-group input[type="text"],.field-group textarea{width:100%;background:var(--bg3);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:9px 12px;font-size:14px;font-family:'Heebo',sans-serif;direction:rtl;text-align:right;resize:vertical;}
+.field-group input:focus,.field-group textarea:focus{outline:none;border-color:var(--red);}
+.field-group textarea{min-height:70px;line-height:1.7;}
+.upload-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.upload-box{background:var(--bg3);border:1px dashed var(--border);border-radius:10px;padding:8px;text-align:center;cursor:pointer;transition:border-color .2s;}
+.upload-box:hover{border-color:var(--red);}
+.upload-box input[type="file"]{display:none;}
+.upload-preview{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:7px;display:none;margin-bottom:4px;}
+.upload-placeholder{font-size:18px;opacity:.35;margin-bottom:2px;}
+.upload-label-text{font-size:9px;color:var(--text-muted);}
+.upload-box.has-image .upload-placeholder{display:none;}
+.upload-box.has-image .upload-preview{display:block;}
+.editor-actions{display:flex;gap:10px;}
+.btn-apply{flex:1;background:var(--red);color:var(--text);border:none;border-radius:10px;padding:10px;font-size:14px;font-weight:500;font-family:'Heebo',sans-serif;cursor:pointer;transition:background .2s;}
+.btn-apply:hover{background:#e0404f;}
+.btn-export{background:var(--bg3);color:var(--pink);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:12px;font-family:'Heebo',sans-serif;cursor:pointer;}
+.progress-wrap{display:flex;flex-direction:column;gap:4px;}
+.progress-label{font-size:11px;color:var(--text-muted);}
+.progress-bar{height:3px;background:var(--bg3);border-radius:2px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,#8b1a22,var(--red-bright));border-radius:2px;transition:width .4s ease;}
+
+/* badge field */
+.field-row-2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+</style>
+</head>
+<body>
+
+<canvas id="vfx-canvas"></canvas>
+<div class="wave-wrap">
+  <svg viewBox="0 0 1440 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,80 C180,140 360,20 540,80 C720,140 900,20 1080,80 C1260,140 1440,20 1440,80 L1440,160 L0,160 Z" fill="rgba(204,51,68,0.07)"/>
+    <path d="M0,100 C200,40 400,160 600,100 C800,40 1000,160 1200,100 C1300,70 1380,120 1440,100 L1440,160 L0,160 Z" fill="rgba(180,20,40,0.05)"/>
+  </svg>
+</div>
+
+<!-- Top bar -->
+<div class="top-bar">
+  <button class="top-btn" onclick="toggleEditor()">✏️ עריכה</button>
+  <button class="top-btn" id="music-toggle-btn" onclick="toggleMusic()">🎵 מוזיקה</button>
+  <button class="top-btn muted" id="mute-btn" onclick="toggleMute()" style="display:none">🔊</button>
+</div>
+
+<!-- Nav -->
+<button class="nav-btn prev" id="btn-prev" onclick="go(-1)">‹</button>
+<button class="nav-btn next" id="btn-next" onclick="go(1)">›</button>
+<div class="dots" id="dots"></div>
+
+<!-- Slider -->
+<div class="slider" id="slider">
+  <!-- Title slide -->
+  <div class="slide slide-title active" id="slide-title">
+    <div class="content">
+      <div class="berry-hero">🍓</div>
+      <p class="title-eyebrow">ברוכים הבאים לטקס הסיום</p>
+      <h1 class="title-main">הכירו את <em>התותים</em></h1>
+      <p class="title-year">מחזור 2026</p>
+      <div class="swipe-hint"><span>←</span><span>החליקו כדי להכיר</span></div>
+    </div>
+  </div>
+  <!-- Senior slides injected by JS -->
+</div>
+
+<!-- Music Picker -->
+<div class="music-overlay" id="music-overlay">
+  <div class="music-box">
+    <h2>🎵 הוספת שיר רקע</h2>
+    <p class="music-desc">העלו קובץ מוזיקה (mp3/ogg/wav) מהמחשב שלכם. השיר יישמר בתוך האתר ויתנגן ברקע, וניתן להשתיק בכל עת.</p>
+    <div class="music-options" id="music-options">
+      <div class="music-option selected" data-src="__custom__" onclick="selectMusic(this)">
+        <span class="music-icon">📁</span>
+        <div class="music-info"><div class="music-name">בחירת קובץ מוזיקה</div><div class="music-sub">mp3 / ogg / wav</div></div>
+        <span class="music-check">✓</span>
+      </div>
+      <div class="music-option" data-src="__none__" onclick="selectMusic(this)">
+        <span class="music-icon">🔇</span>
+        <div class="music-info"><div class="music-name">בלי מוזיקה</div><div class="music-sub">הסירו שיר קיים</div></div>
+        <span class="music-check">✓</span>
+      </div>
+    </div>
+    <div class="music-upload-row" id="custom-upload-row">
+      <label class="music-upload-btn" for="music-file-input">📂 בחרו קובץ מוזיקה מהמחשב</label>
+      <input type="file" id="music-file-input" accept="audio/*" style="display:none" onchange="handleMusicFile(this)">
+      <div id="music-file-name" style="font-size:11px;color:var(--text-muted);text-align:center;"></div>
+    </div>
+    <div class="music-actions">
+      <button class="music-apply" onclick="applyMusic()">▶ הפעל</button>
+      <button class="music-cancel" onclick="toggleMusic()">ביטול</button>
+    </div>
+  </div>
+</div>
+
+<!-- Editor Overlay -->
+<div class="editor-overlay" id="editor-overlay">
+  <div class="editor-box">
+    <div class="editor-header">
+      <h2>עריכת תות 🍓</h2>
+      <button class="editor-close" onclick="toggleEditor()">✕</button>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label" id="progress-label">0 מתוך 22 הושלמו</div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    </div>
+    <select id="editor-select" onchange="editorLoad(this.value)"></select>
+    <div class="field-row-2">
+      <div class="field-group">
+        <label>שם מלא</label>
+        <input type="text" id="field-name" placeholder="יעל כהן">
+      </div>
+      <div class="field-group">
+        <label>תגית (למעלה מהשם)</label>
+        <input type="text" id="field-badge" placeholder="למשל: מלכת הבדיחות 👑">
+      </div>
+    </div>
+    <div class="upload-row">
+      <div class="field-group">
+        <label>כיתה א׳</label>
+        <div class="upload-box" id="upload-grade1" onclick="document.getElementById('file-grade1').click()">
+          <input type="file" id="file-grade1" accept="image/*" onchange="handleUpload('grade1',this)">
+          <img class="upload-preview" id="preview-grade1" src="" alt="">
+          <div class="upload-placeholder">📷</div>
+          <div class="upload-label-text">העלו תמונה</div>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>כיתה ז׳</label>
+        <div class="upload-box" id="upload-grade7" onclick="document.getElementById('file-grade7').click()">
+          <input type="file" id="file-grade7" accept="image/*" onchange="handleUpload('grade7',this)">
+          <img class="upload-preview" id="preview-grade7" src="" alt="">
+          <div class="upload-placeholder">📷</div>
+          <div class="upload-label-text">העלו תמונה</div>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>היום</label>
+        <div class="upload-box" id="upload-now" onclick="document.getElementById('file-now').click()">
+          <input type="file" id="file-now" accept="image/*" onchange="handleUpload('now',this)">
+          <img class="upload-preview" id="preview-now" src="" alt="">
+          <div class="upload-placeholder">📷</div>
+          <div class="upload-label-text">העלו תמונה</div>
+        </div>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>טקסט</label>
+      <textarea id="field-text" placeholder="כתבו משהו מיוחד..."></textarea>
+    </div>
+
+    <div class="field-group" style="margin-top:4px;">
+      <label>שאלות קווין (אופציונלי)</label>
+      <div id="quiz-questions-list" style="display:flex;flex-direction:column;gap:10px;"></div>
+      <button onclick="addQuizQuestion()" style="margin-top:8px;background:rgba(255,96,112,.1);border:1px solid rgba(255,96,112,.3);color:var(--red-bright);border-radius:10px;padding:6px 14px;font-size:12px;font-family:'Heebo',sans-serif;cursor:pointer;width:100%;">+ הוסף שאלה</button>
+    </div>
+    <div class="editor-actions">
+      <button class="btn-apply" onclick="applyEditor()">🍓 שמור ועבור לבא/ה</button>
+      <button class="btn-export" onclick="exportSite()">⬇ ייצוא</button>
+    </div>
+  </div>
+</div>
+
+<div class="lightbox-overlay" id="lightbox-overlay" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox();event.stopPropagation()">✕</button>
+  <div class="lightbox-img-wrap" onclick="event.stopPropagation()">
+    <img id="lightbox-img" src="" alt="">
+    <span class="lightbox-tag" id="lightbox-tag"></span>
+  </div>
+</div>
+<audio id="bg-audio" loop style="display:none"></audio>
+
+<script>
+// ── DATA ──
+const seniors = Array.from({length:22},(_,i)=>({id:i,name:'',badge:'',text:'',grade1:'',grade7:'',now:'',quiz:[]}));
+let current=0, editorIndex=0;
+const TOTAL=23;
+
+// ── VOTES (editor: localStorage only, for preview) ──
+const VOTE_EMOJIS=['❤️','🍓','✨'];
+function hasVotedDevice(i){return localStorage.getItem('voted_senior_'+i)!==null;}
+function getMyVoteChoice(i){return localStorage.getItem('voted_senior_'+i);}
+function setVotedDevice(i,emojiIdx){localStorage.setItem('voted_senior_'+i,String(emojiIdx));}
+function getLocalTotals(i){try{return JSON.parse(localStorage.getItem('totals_'+i)||'[0,0,0]');}catch{return [0,0,0];}}
+function saveLocalTotals(i,arr){localStorage.setItem('totals_'+i,JSON.stringify(arr));}
+
+function castVote(i,emojiIdx){
+  if(hasVotedDevice(i))return;
+  setVotedDevice(i,emojiIdx);
+  const totals=getLocalTotals(i);
+  totals[emojiIdx]=(totals[emojiIdx]||0)+1;
+  saveLocalTotals(i,totals);
+  renderVoteUI(i);
+}
+
+function renderVoteUI(i){
+  const row=document.querySelector(`#slide-${i} .vote-row`);
+  if(!row)return;
+  const totals=getLocalTotals(i);
+  const total=totals.reduce((a,b)=>a+b,0);
+  const voted=hasVotedDevice(i);
+  const myChoice=voted?parseInt(getMyVoteChoice(i)):-1;
+  row.classList.toggle('revealed',voted);
+  const btnsRow=row.querySelector('.vote-buttons-row');
+  if(!btnsRow)return;
+  VOTE_EMOJIS.forEach((e,j)=>{
+    const btn=btnsRow.children[j];
+    if(!btn)return;
+    const pct=total>0?Math.round(totals[j]/total*100):0;
+    btn.querySelector('.vote-count').textContent=totals[j];
+    btn.querySelector('.vote-pct').textContent=pct+'%';
+    btn.classList.toggle('voted',j===myChoice);
+    btn.disabled=voted;
+  });
+  const hint=row.querySelector('.vote-hint');
+  if(hint)hint.style.display=voted?'none':'block';
+}
+
+// ── LIGHTBOX ──
+function openLightbox(src,tag){
+  if(!src)return;
+  document.getElementById('lightbox-img').src=src;
+  document.getElementById('lightbox-tag').textContent=tag;
+  document.getElementById('lightbox-overlay').classList.add('open');
+}
+function closeLightbox(){document.getElementById('lightbox-overlay').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
+
+// ── VFX PARTICLES ──
+const canvas=document.getElementById('vfx-canvas');
+const ctx=canvas.getContext('2d');
+const EMOJIS=['🍓','🍓','🍓','❤️','✨','🍓'];
+let particles=[];
+function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+resizeCanvas(); window.addEventListener('resize',resizeCanvas);
+function spawnParticle(x,y,burst){
+  const count=burst?12:1;
+  for(let i=0;i<count;i++){
+    const angle=burst?(Math.PI*2/count)*i:Math.random()*Math.PI*2;
+    const speed=burst?(Math.random()*4+2):(Math.random()*.6+.2);
+    particles.push({x:x??Math.random()*canvas.width,y:y??canvas.height+30,vx:burst?Math.cos(angle)*speed:(Math.random()-.5)*.5,vy:burst?Math.sin(angle)*speed:-(Math.random()*1.5+.5),size:burst?(Math.random()*18+10):(Math.random()*16+10),opacity:1,decay:burst?(Math.random()*.02+.015):(Math.random()*.004+.002),rotation:Math.random()*Math.PI*2,rotSpeed:(Math.random()-.5)*.05,emoji:EMOJIS[Math.floor(Math.random()*EMOJIS.length)]});
+  }
+}
+setInterval(()=>spawnParticle(null,null,false),400);
+function animParticles(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles=particles.filter(p=>p.opacity>0);
+  for(const p of particles){p.x+=p.vx;p.y+=p.vy;p.opacity-=p.decay;p.rotation+=p.rotSpeed;ctx.save();ctx.globalAlpha=Math.max(0,p.opacity);ctx.translate(p.x,p.y);ctx.rotate(p.rotation);ctx.font=p.size+'px serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(p.emoji,0,0);ctx.restore();}
+  requestAnimationFrame(animParticles);
+}
+animParticles();
+document.getElementById('slider').addEventListener('click',e=>{
+  if(!e.target.closest('.nav-btn')&&!e.target.closest('.top-btn')&&!e.target.closest('.vote-btn'))
+    spawnParticle(e.clientX,e.clientY,true);
+});
+
+// ── RENDER SLIDES ──
+function renderSlides(){
+  document.querySelectorAll('.slide-senior').forEach(el=>el.remove());
+  const slider=document.getElementById('slider');
+  seniors.forEach((s,i)=>{
+    const slide=document.createElement('div');
+    slide.className='slide slide-senior';
+    slide.id='slide-'+i;
+    const g1=s.grade1?`<img src="${s.grade1}" alt="כיתה א'">`:`<div class="photo-empty">📷</div>`;
+    const g7=s.grade7?`<img src="${s.grade7}" alt="כיתה ז'">`:`<div class="photo-empty">📷</div>`;
+    const now=s.now?`<img src="${s.now}" alt="היום">`:`<div class="photo-empty">📷</div>`;
+    const badge=s.badge?`<div class="senior-badge">${s.badge}</div>`:'';
+    const voteBtns=VOTE_EMOJIS.map((e,j)=>`
+      <button class="vote-btn" data-idx="${i}" data-emoji="${j}">
+        <span class="vote-emoji">${e}</span>
+        <span class="vote-count">0</span>
+        <span class="vote-pct">0%</span>
+      </button>`).join('');
+    const quizHtml=s.quiz&&s.quiz.length?`
+      <button class="quiz-btn" onclick="toggleQuiz(${i});event.stopPropagation()">🧠 קווין</button>
+      <div class="quiz-panel" id="quiz-panel-${i}"></div>`:'';
+    slide.innerHTML=`
+      <div class="content">
+        <p class="senior-number">${i+1} / 22</p>
+        ${badge}
+        <div class="photos-row">
+          <div class="photo-card"><div class="photo-frame" data-src="${s.grade1||''}" data-tag="כיתה א׳">${g1}</div><span class="photo-tag">כיתה א׳</span></div>
+          <div class="photo-card"><div class="photo-frame" data-src="${s.grade7||''}" data-tag="כיתה ז׳">${g7}</div><span class="photo-tag">כיתה ז׳</span></div>
+          <div class="photo-card"><div class="photo-frame" data-src="${s.now||''}" data-tag="היום">${now}</div><span class="photo-tag">היום</span></div>
+        </div>
+        <h2 class="senior-name">${s.name||'—'}</h2>
+        <p class="senior-text">${s.text||''}</p>
+        <div class="vote-row">
+          <div class="vote-buttons-row">${voteBtns}</div>
+          <span class="vote-hint">לחצו כדי להצביע</span>
+        </div>
+        ${quizHtml}
+      </div>`;
+    slider.appendChild(slide);
+  });
+
+  // bind vote buttons
+  document.querySelectorAll('.vote-btn').forEach(btn=>{
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      castVote(parseInt(this.dataset.idx), parseInt(this.dataset.emoji));
+    });
+  });
+
+  // bind photo lightbox
+  document.querySelectorAll('.photo-frame').forEach(frame=>{
+    frame.addEventListener('click',function(e){
+      e.stopPropagation();
+      if(this.dataset.src) openLightbox(this.dataset.src, this.dataset.tag);
+    });
+  });
+
+
+  // init quiz panels
+  seniors.forEach((s,i)=>{
+    if(s.quiz&&s.quiz.length) initQuizPanel(i,s.quiz);
+  });
+
+  renderDots();
+  document.querySelectorAll('.slide').forEach(s=>s.classList.remove('active'));
+  const activeEl=getSlideEl(current);
+  if(activeEl) activeEl.classList.add('active');
+}
+
+
+// ── QUIZ RUNTIME ──
+const quizState={}; // {seniorIdx: {answered:[null,...], panel:el}}
+
+function initQuizPanel(i,questions){
+  const panel=document.getElementById('quiz-panel-'+i);
+  if(!panel)return;
+  if(!quizState[i]) quizState[i]={answered:questions.map(()=>null)};
+  renderQuizPanel(i,questions);
+}
+
+function toggleQuiz(i){
+  const panel=document.getElementById('quiz-panel-'+i);
+  if(!panel)return;
+  const isOpen=panel.classList.toggle('open');
+  if(isOpen&&seniors[i].quiz) renderQuizPanel(i,seniors[i].quiz);
+}
+
+function renderQuizPanel(i,questions){
+  const panel=document.getElementById('quiz-panel-'+i);
+  if(!panel)return;
+  const state=quizState[i]||(quizState[i]={answered:questions.map(()=>null)});
+  const correct=state.answered.filter((a,qi)=>a===questions[qi].correct).length;
+  const done=state.answered.every(a=>a!==null);
+  let html='';
+  if(done) html+=`<div class="quiz-score">${correct}/${questions.length} נכון 🍓</div>`;
+  questions.forEach((q,qi)=>{
+    const ans=state.answered[qi];
+    const answered=ans!==null;
+    html+=`<div class="quiz-q">
+      <div class="quiz-q-text">${qi+1}. ${q.q}</div>
+      <div class="quiz-options">
+        ${(q.answers||[]).map((opt,ai)=>{
+          let cls='quiz-opt';
+          if(answered){
+            if(ai===q.correct) cls+=' correct';
+            else if(ai===ans) cls+=' wrong';
+          }
+          return `<button class="${cls}" ${answered?'disabled':''} onclick="answerQuiz(${i},${qi},${ai});event.stopPropagation()">${opt}</button>`;
+        }).join('')}
+      </div>
+    </div>`;
+  });
+  panel.innerHTML=html;
+}
+
+function answerQuiz(i,qi,ai){
+  const s=seniors[i];
+  if(!quizState[i]) quizState[i]={answered:s.quiz.map(()=>null)};
+  if(quizState[i].answered[qi]!==null)return;
+  quizState[i].answered[qi]=ai;
+  spawnParticle(null,null,false);
+  renderQuizPanel(i,s.quiz);
+}
+
+// ── ZOOM TRANSITION ──
+let isAnimating=false;
+function getSlideEl(idx){
+  if(idx===0) return document.getElementById('slide-title');
+  return document.getElementById('slide-'+(idx-1));
+}
+function showSlide(idx, fromIdx){
+  // hide previous
+  if(fromIdx!==null && fromIdx!==idx){
+    const from=getSlideEl(fromIdx);
+    if(from){
+      from.classList.add('exit-zoom');
+      from.classList.remove('active');
+      setTimeout(()=>from.classList.remove('exit-zoom'),450);
+    }
+  }
+  // show next
+  const next=getSlideEl(idx);
+  if(next) next.classList.add('active');
+}
+
+function go(dir){goTo(current+dir);}
+function goTo(idx){
+  if(idx<0||idx>=TOTAL)return;
+  const prev=current; current=idx;
+  showSlide(current,prev);
+  renderDots();
+  document.getElementById('btn-prev').disabled=current===0;
+  document.getElementById('btn-next').disabled=current===TOTAL-1;
+}
+
+function renderDots(){
+  const dots=document.getElementById('dots'); dots.innerHTML='';
+  for(let i=0;i<TOTAL;i++){const d=document.createElement('div');d.className='dot'+(i===current?' active':'');d.onclick=()=>goTo(i);dots.appendChild(d);}
+}
+
+// touch
+let tx=0;
+document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+document.addEventListener('touchend',e=>{const dx=tx-e.changedTouches[0].clientX;if(Math.abs(dx)>40)go(dx>0?1:-1);},{passive:true});
+document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')go(1);if(e.key==='ArrowRight')go(-1);});
+
+// ── MUSIC ──
+const audio=document.getElementById('bg-audio');
+let isMuted=false, selectedMusicSrc='', customMusicSrc='';
+
+function toggleMusic(){document.getElementById('music-overlay').classList.toggle('open');}
+
+function selectMusic(el){
+  document.querySelectorAll('.music-option').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  const src=el.dataset.src;
+  document.getElementById('custom-upload-row').style.display=(src==='__custom__')?'flex':'none';
+}
+
+function handleMusicFile(input){
+  const file=input.files[0]; if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{customMusicSrc=e.target.result; document.getElementById('music-file-name').textContent='✓ '+file.name;};
+  reader.readAsDataURL(file);
+}
+
+function applyMusic(){
+  const sel=document.querySelector('.music-option.selected');
+  if(!sel)return;
+  if(sel.dataset.src==='__none__'){
+    selectedMusicSrc='';
+    audio.removeAttribute('src');
+    audio.pause();
+    document.getElementById('mute-btn').style.display='none';
+    toggleMusic();
+    return;
+  }
+  const src=sel.dataset.src==='__custom__'?customMusicSrc:sel.dataset.src;
+  if(!src){ alert('בחרו קובץ מוזיקה לפני שלוחצים על הפעל'); return; }
+  selectedMusicSrc=src;
+  audio.src=src; audio.volume=0.25;
+  audio.play().catch(()=>{});
+  document.getElementById('mute-btn').style.display='block';
+  document.getElementById('mute-btn').textContent=isMuted?'🔇':'🔊';
+  toggleMusic();
+}
+
+function toggleMute(){
+  isMuted=!isMuted;
+  audio.muted=isMuted;
+  document.getElementById('mute-btn').textContent=isMuted?'🔇':'🔊';
+}
+
+
+// ── QUIZ EDITOR ──
+function renderQuizEditor(questions){
+  const list=document.getElementById('quiz-questions-list');
+  list.innerHTML='';
+  (questions||[]).forEach((q,qi)=>{
+    const div=document.createElement('div');
+    div.style.cssText='background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:6px;';
+    div.innerHTML=`
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-size:11px;color:var(--text-muted);">שאלה ${qi+1}</span>
+        <button onclick="removeQuizQuestion(${qi})" style="background:none;border:none;color:var(--text-muted);font-size:14px;cursor:pointer;">✕</button>
+      </div>
+      <input type="text" placeholder="מה השאלה?" value="${q.q||''}" data-qi="${qi}" data-field="q"
+        style="background:var(--bg3);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;font-family:'Heebo',sans-serif;direction:rtl;width:100%;"
+        oninput="updateQuizField(this)">
+      ${[0,1,2,3].map(ai=>`
+        <div style="display:flex;gap:6px;align-items:center;">
+          <input type="radio" name="correct-${qi}" value="${ai}" ${q.correct===ai?'checked':''} onchange="updateQuizCorrect(${qi},${ai})" style="flex-shrink:0;">
+          <input type="text" placeholder="תשובה ${ai+1}" value="${(q.answers||[])[ai]||''}" data-qi="${qi}" data-ai="${ai}"
+            style="flex:1;background:var(--bg3);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:12px;font-family:'Heebo',sans-serif;direction:rtl;"
+            oninput="updateQuizAnswer(this)">
+        </div>`).join('')}
+      <p style="font-size:10px;color:var(--text-muted);margin:0;">סמנו את העיגול ליד התשובה הנכונה</p>
+    `;
+    list.appendChild(div);
+  });
+}
+function addQuizQuestion(){
+  const s=seniors[editorIndex];
+  if(!s.quiz) s.quiz=[];
+  s.quiz.push({q:'',answers:['','','',''],correct:0});
+  renderQuizEditor(s.quiz);
+}
+function removeQuizQuestion(qi){
+  const s=seniors[editorIndex];
+  s.quiz.splice(qi,1);
+  renderQuizEditor(s.quiz);
+}
+function updateQuizField(el){
+  seniors[editorIndex].quiz[parseInt(el.dataset.qi)].q=el.value;
+}
+function updateQuizAnswer(el){
+  const s=seniors[editorIndex];
+  const qi=parseInt(el.dataset.qi), ai=parseInt(el.dataset.ai);
+  if(!s.quiz[qi].answers) s.quiz[qi].answers=['','','',''];
+  s.quiz[qi].answers[ai]=el.value;
+}
+function updateQuizCorrect(qi,ai){
+  seniors[editorIndex].quiz[qi].correct=ai;
+}
+
+// ── EDITOR ──
+function toggleEditor(){document.getElementById('editor-overlay').classList.toggle('open');}
+function editorLoad(idx){
+  editorIndex=parseInt(idx);
+  const s=seniors[editorIndex];
+  document.getElementById('editor-select').value=editorIndex;
+  document.getElementById('field-name').value=s.name;
+  document.getElementById('field-badge').value=s.badge||'';
+  document.getElementById('field-text').value=s.text;
+  setPreview('grade1',s.grade1);setPreview('grade7',s.grade7);setPreview('now',s.now);
+  renderQuizEditor(s.quiz||[]);
+}
+function setPreview(slot,src){
+  const box=document.getElementById('upload-'+slot);
+  const img=document.getElementById('preview-'+slot);
+  if(src){img.src=src;img.style.display='block';box.classList.add('has-image');}
+  else{img.src='';img.style.display='none';box.classList.remove('has-image');}
+}
+function handleUpload(slot,input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{seniors[editorIndex][slot]=e.target.result;setPreview(slot,e.target.result);};
+  reader.readAsDataURL(file);
+}
+function applyEditor(){
+  const s=seniors[editorIndex];
+  s.name=document.getElementById('field-name').value.trim();
+  s.badge=document.getElementById('field-badge').value.trim();
+  s.text=document.getElementById('field-text').value.trim();
+  document.getElementById('editor-select').options[editorIndex].textContent=s.name||`תות ${editorIndex+1}`;
+  renderSlides();updateProgress();
+  goTo(editorIndex+1);
+  if(editorIndex<21){editorIndex++;editorLoad(editorIndex);}
+}
+function updateProgress(){
+  const done=seniors.filter(s=>s.name&&s.text&&s.grade1&&s.grade7&&s.now).length;
+  document.getElementById('progress-label').textContent=`${done} מתוך 22 הושלמו`;
+  document.getElementById('progress-fill').style.width=(done/22*100)+'%';
+}
+
+// ── EXPORT ──
+function exportSite(){
+  const seniorsJSON=JSON.stringify(seniors);
+  const html=`<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>התותים של 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--bg:#1a0608;--bg2:#200a0c;--bg3:#150406;--border:#5a1e24;--border2:#3a1018;--red:#cc3344;--red-bright:#ff6070;--pink:#ff8090;--pink-soft:#f08090;--text:#ffe8ea;--text-dim:#8a5860;--text-muted:#4a2028;}
+html,body{height:100%;overflow:hidden;font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);direction:rtl;user-select:none;}
+#vfx-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.wave-wrap{position:fixed;bottom:0;left:0;right:0;z-index:0;pointer-events:none;height:160px;overflow:hidden;}
+.wave-wrap svg{width:200%;height:100%;animation:wave-scroll 8s linear infinite;}
+@keyframes wave-scroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+.slider{position:relative;z-index:1;width:100vw;height:100vh;overflow:hidden;}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transform:scale(1.08);transition:opacity 0.5s ease,transform 0.5s cubic-bezier(0.22,1,0.36,1);}
+.slide.active{opacity:1;pointer-events:all;transform:scale(1);}
+.slide.exit-zoom{opacity:0;transform:scale(0.92);transition:opacity .35s ease,transform .35s ease;}
+.slide::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,100,100,.055) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;z-index:0;}
+.slide::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 50% 0%,rgba(220,50,70,.18) 0%,transparent 65%),radial-gradient(ellipse 60% 40% at 50% 100%,rgba(180,20,40,.12) 0%,transparent 60%);pointer-events:none;z-index:0;}
+.slide-title .content{position:relative;z-index:1;text-align:center;padding:40px 32px;display:flex;flex-direction:column;align-items:center;}
+.berry-hero{font-size:clamp(72px,16vw,130px);line-height:1;margin-bottom:24px;animation:bob 3s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-3deg);}50%{transform:translateY(-12px) rotate(3deg);}}
+.title-eyebrow{font-size:clamp(11px,2vw,14px);font-weight:500;color:var(--pink-soft);letter-spacing:.12em;margin-bottom:16px;}
+.title-main{font-size:clamp(36px,8vw,80px);font-weight:900;line-height:1.1;color:var(--text);margin-bottom:8px;}
+.title-main em{font-style:normal;color:var(--red-bright);}
+.title-year{font-size:clamp(18px,4vw,28px);font-weight:400;color:var(--text-dim);margin-bottom:48px;}
+.swipe-hint{display:flex;align-items:center;gap:10px;color:var(--text-muted);font-size:14px;animation:pulse 2.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:.5;transform:translateX(0);}50%{opacity:1;transform:translateX(-6px);}}
+.slide-senior .content{position:relative;z-index:1;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 16px 64px;}
+.senior-number{font-size:11px;font-weight:500;color:var(--text-muted);letter-spacing:.1em;margin-bottom:10px;}
+.senior-badge{display:inline-block;font-size:11px;font-weight:700;color:var(--red-bright);background:rgba(255,96,112,.1);border:1px solid rgba(255,96,112,.3);border-radius:20px;padding:3px 14px;margin-bottom:8px;letter-spacing:.05em;}
+.photos-row{display:flex;gap:10px;margin-bottom:14px;justify-content:center;align-items:flex-start;}
+.photo-card{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.photo-frame{width:clamp(88px,23vw,140px);aspect-ratio:3/4;border-radius:14px;overflow:hidden;border:2px solid var(--border);background:var(--bg3);box-shadow:0 8px 32px rgba(0,0,0,.5);cursor:zoom-in;}
+.photo-frame img{width:100%;height:100%;object-fit:cover;display:block;}
+.photo-empty{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:28px;opacity:.12;}
+.photo-tag{font-size:10px;font-weight:500;color:var(--pink);background:rgba(204,51,68,.13);border:1px solid var(--border2);border-radius:20px;padding:3px 10px;white-space:nowrap;}
+.senior-name{font-size:clamp(20px,4.5vw,30px);font-weight:900;color:var(--text);text-align:center;margin-bottom:8px;line-height:1.1;}
+.senior-text{font-size:clamp(11px,1.9vw,13px);line-height:1.85;color:var(--text-dim);text-align:center;max-width:480px;padding:0 8px;margin-bottom:14px;}
+.vote-row{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.vote-buttons-row{display:flex;gap:10px;align-items:center;justify-content:center;}
+.vote-btn{display:flex;flex-direction:column;align-items:center;gap:3px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:7px 14px;cursor:pointer;transition:background .2s,border-color .2s,transform .15s;font-family:'Heebo',sans-serif;min-width:60px;}
+.vote-btn:hover{background:rgba(204,51,68,.12);border-color:var(--red);}
+.vote-btn.voted{background:rgba(204,51,68,.18);border-color:var(--red-bright);}
+.vote-btn:active{transform:scale(0.92);}
+.vote-btn:disabled{cursor:default;}
+.vote-emoji{font-size:20px;line-height:1;}
+.vote-count{font-size:11px;font-weight:700;color:var(--pink);display:none;}
+.vote-pct{font-size:9px;color:var(--text-muted);display:none;}
+.vote-row.revealed .vote-count{display:inline;}
+.vote-row.revealed .vote-pct{display:block;}
+.vote-hint{font-size:9px;color:var(--text-muted);}
+.nav-btn{position:fixed;top:50%;transform:translateY(-50%);z-index:100;background:rgba(32,10,12,.75);border:1px solid var(--border);color:var(--pink);width:42px;height:42px;border-radius:50%;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);transition:background .2s,border-color .2s;}
+.nav-btn:hover{background:rgba(60,16,20,.9);border-color:var(--red);}
+.nav-btn.prev{right:14px;}.nav-btn.next{left:14px;}.nav-btn:disabled{opacity:.18;cursor:default;}
+.dots{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:100;flex-wrap:wrap;justify-content:center;max-width:90vw;}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--border);transition:background .3s,transform .3s;cursor:pointer;}
+.dot.active{background:var(--red-bright);transform:scale(1.5);}
+.mute-btn{position:fixed;top:14px;left:14px;z-index:200;background:rgba(32,10,12,.85);border:1px solid var(--border);color:var(--pink);padding:7px 13px;border-radius:20px;font-size:12px;font-family:'Heebo',sans-serif;cursor:pointer;backdrop-filter:blur(8px);}
+.lightbox-overlay{position:fixed;inset:0;z-index:500;background:rgba(5,1,2,.95);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .25s ease;}
+.lightbox-overlay.open{opacity:1;pointer-events:all;}
+.lightbox-img-wrap{max-width:92vw;max-height:85vh;display:flex;flex-direction:column;align-items:center;gap:14px;transform:scale(0.9);transition:transform .25s ease;}
+.lightbox-overlay.open .lightbox-img-wrap{transform:scale(1);}
+.lightbox-img-wrap img{max-width:92vw;max-height:78vh;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.6);border:2px solid var(--border);object-fit:contain;}
+.lightbox-tag{font-size:13px;font-weight:500;color:var(--pink);background:rgba(204,51,68,.15);border:1px solid var(--border2);border-radius:20px;padding:5px 18px;}
+.lightbox-close{position:fixed;top:18px;left:18px;z-index:501;background:rgba(32,10,12,.85);border:1px solid var(--border);color:var(--pink);width:38px;height:38px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
+/* ── QUIZ ── */
+.quiz-btn{background:rgba(255,96,112,.12);border:1px solid rgba(255,96,112,.35);color:var(--red-bright);border-radius:20px;padding:5px 16px;font-size:12px;font-weight:700;font-family:'Heebo',sans-serif;cursor:pointer;transition:background .2s;margin-top:6px;}
+.quiz-btn:hover{background:rgba(255,96,112,.22);}
+.quiz-panel{display:none;width:100%;max-width:480px;background:rgba(20,6,8,.85);border:1px solid var(--border);border-radius:16px;padding:16px 18px;margin-top:8px;text-align:right;}
+.quiz-panel.open{display:block;}
+.quiz-score{font-size:12px;font-weight:700;color:var(--pink);margin-bottom:10px;text-align:center;}
+.quiz-q{margin-bottom:14px;}
+.quiz-q-text{font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.quiz-opt{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:7px 10px;font-size:12px;color:var(--text-dim);cursor:pointer;font-family:'Heebo',sans-serif;text-align:right;transition:background .2s,border-color .2s;}
+.quiz-opt:hover:not(:disabled){background:rgba(204,51,68,.12);border-color:var(--red);}
+.quiz-opt.correct{background:rgba(30,100,50,.3);border-color:#3a8a50;color:#7ecf90;}
+.quiz-opt.wrong{background:rgba(150,30,30,.3);border-color:#8a3030;color:#cf7e7e;}
+.quiz-opt:disabled{cursor:default;}
+</style>
+</head>
+<body>
+<canvas id="vfx-canvas"></canvas>
+<div class="wave-wrap"><svg viewBox="0 0 1440 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,80 C180,140 360,20 540,80 C720,140 900,20 1080,80 C1260,140 1440,20 1440,80 L1440,160 L0,160 Z" fill="rgba(204,51,68,0.07)"/><path d="M0,100 C200,40 400,160 600,100 C800,40 1000,160 1200,100 C1300,70 1380,120 1440,100 L1440,160 L0,160 Z" fill="rgba(180,20,40,0.05)"/></svg></div>
+<button class="nav-btn prev" id="btn-prev" onclick="go(-1)">‹</button>
+<button class="nav-btn next" id="btn-next" onclick="go(1)">›</button>
+<button class="mute-btn" id="mute-btn" onclick="toggleMute()">🔊</button>
+<div class="dots" id="dots"></div>
+<div class="slider" id="slider">
+  <div class="slide slide-title active" id="slide-title">
+    <div class="content">
+      <div class="berry-hero">🍓</div>
+      <p class="title-eyebrow">ברוכים הבאים לטקס הסיום</p>
+      <h1 class="title-main">הכירו את <em>התותים</em></h1>
+      <p class="title-year">מחזור 2026</p>
+      <div class="swipe-hint"><span>←</span><span>החליקו כדי להכיר</span></div>
+    </div>
+  </div>
+</div>
+<div class="lightbox-overlay" id="lightbox-overlay" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox();event.stopPropagation()">✕</button>
+  <div class="lightbox-img-wrap" onclick="event.stopPropagation()">
+    <img id="lightbox-img" src="" alt="">
+    <span class="lightbox-tag" id="lightbox-tag"></span>
+  </div>
+</div>
+<audio id="bg-audio" loop style="display:none" src="${selectedMusicSrc}" autoplay></audio>
+<script>
+// ===== CONFIG: shared voting backend (JSONBin.io) =====
+// Fill these in once - see instructions from Claude for how to get them.
+const JSONBIN_BIN_ID = 'YOUR_BIN_ID_HERE';
+const JSONBIN_API_KEY = 'YOUR_API_KEY_HERE';
+const VOTES_ENABLED = JSONBIN_BIN_ID !== 'YOUR_BIN_ID_HERE' && JSONBIN_API_KEY !== 'YOUR_API_KEY_HERE';
+const JSONBIN_URL = 'https://api.jsonbin.io/v3/b/' + JSONBIN_BIN_ID;
+
+const seniors=${seniorsJSON};
+function escHtml(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+const VOTE_EMOJIS=['❤️','🍓','✨'];
+
+// device-level "already voted" lock - independent of shared counts
+function hasVotedDevice(i){return localStorage.getItem('voted_senior_'+i)!==null;}
+function getMyVoteChoice(i){return localStorage.getItem('voted_senior_'+i);}
+function setVotedDevice(i,emojiIdx){localStorage.setItem('voted_senior_'+i,String(emojiIdx));}
+
+// shared vote totals cache, structure: {0:[c0,c1,c2], 1:[...], ...}
+let votesCache={};
+
+async function fetchAllVotes(){
+  if(!VOTES_ENABLED) return {};
+  try{
+    const res=await fetch(JSONBIN_URL+'/latest',{headers:{'X-Master-Key':JSONBIN_API_KEY}});
+    if(!res.ok) throw new Error('fetch failed');
+    const data=await res.json();
+    return (data && data.record) ? data.record : {};
+  }catch(err){
+    console.error('Vote fetch error:',err);
+    return {};
+  }
+}
+
+async function saveAllVotes(votes){
+  if(!VOTES_ENABLED) return;
+  try{
+    await fetch(JSONBIN_URL,{
+      method:'PUT',
+      headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_API_KEY},
+      body:JSON.stringify(votes)
+    });
+  }catch(err){
+    console.error('Vote save error:',err);
+  }
+}
+
+function getTotals(i){
+  const arr=votesCache[i]||[0,0,0];
+  return arr;
+}
+
+async function castVote(i,emojiIdx){
+  if(hasVotedDevice(i)) return; // already voted, one vote per person
+  setVotedDevice(i,emojiIdx);
+  const totals=getTotals(i).slice();
+  totals[emojiIdx]=(totals[emojiIdx]||0)+1;
+  votesCache[i]=totals;
+  renderVoteUI(i);
+  await saveAllVotes(votesCache);
+  // re-sync from server to catch concurrent votes from others
+  const fresh=await fetchAllVotes();
+  if(fresh && fresh[i]){
+    // merge: take the max to avoid losing votes from a race
+    const mine=votesCache[i];
+    const server=fresh[i];
+    votesCache[i]=mine.map((v,idx)=>Math.max(v,server[idx]||0));
+    renderVoteUI(i);
+  }
+}
+
+function renderVoteUI(i){
+  const row=document.querySelector('#slide-'+i+' .vote-row');
+  if(!row)return;
+  const totals=getTotals(i);
+  const total=totals.reduce((a,b)=>a+b,0);
+  const voted=hasVotedDevice(i);
+  const myChoice=voted?parseInt(getMyVoteChoice(i)):-1;
+  row.classList.toggle('revealed',voted);
+  const btnsRow=row.querySelector('.vote-buttons-row');
+  VOTE_EMOJIS.forEach((e,j)=>{
+    const btn=btnsRow.children[j];
+    const pct=total>0?Math.round(totals[j]/total*100):0;
+    btn.querySelector('.vote-count').textContent=totals[j];
+    btn.querySelector('.vote-pct').textContent=pct+'%';
+    btn.classList.toggle('voted',j===myChoice);
+    btn.disabled=voted;
+  });
+  const hint=row.querySelector('.vote-hint');
+  if(hint) hint.style.display=voted?'none':'block';
+}
+
+// ── LIGHTBOX ──
+function openLightbox(src,tag){
+  if(!src)return;
+  document.getElementById('lightbox-img').src=src;
+  document.getElementById('lightbox-tag').textContent=tag;
+  document.getElementById('lightbox-overlay').classList.add('open');
+}
+function closeLightbox(){document.getElementById('lightbox-overlay').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
+
+const canvas=document.getElementById('vfx-canvas'),ctx=canvas.getContext('2d');
+const EMOJIS=['🍓','🍓','🍓','❤️','✨','🍓'];let particles=[];
+function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}resizeCanvas();window.addEventListener('resize',resizeCanvas);
+function spawnParticle(x,y,burst){const count=burst?12:1;for(let i=0;i<count;i++){const angle=burst?(Math.PI*2/count)*i:Math.random()*Math.PI*2;const speed=burst?(Math.random()*4+2):(Math.random()*.6+.2);particles.push({x:x??Math.random()*canvas.width,y:y??canvas.height+30,vx:burst?Math.cos(angle)*speed:(Math.random()-.5)*.5,vy:burst?Math.sin(angle)*speed:-(Math.random()*1.5+.5),size:burst?(Math.random()*18+10):(Math.random()*16+10),opacity:1,decay:burst?(Math.random()*.02+.015):(Math.random()*.004+.002),rotation:Math.random()*Math.PI*2,rotSpeed:(Math.random()-.5)*.05,emoji:EMOJIS[Math.floor(Math.random()*EMOJIS.length)]});}}
+setInterval(()=>spawnParticle(null,null,false),400);
+function animParticles(){ctx.clearRect(0,0,canvas.width,canvas.height);particles=particles.filter(p=>p.opacity>0);for(const p of particles){p.x+=p.vx;p.y+=p.vy;p.opacity-=p.decay;p.rotation+=p.rotSpeed;ctx.save();ctx.globalAlpha=Math.max(0,p.opacity);ctx.translate(p.x,p.y);ctx.rotate(p.rotation);ctx.font=p.size+'px serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(p.emoji,0,0);ctx.restore();}requestAnimationFrame(animParticles);}animParticles();
+document.getElementById('slider').addEventListener('click',e=>{if(!e.target.closest('.nav-btn')&&!e.target.closest('.vote-btn')&&!e.target.closest('.mute-btn')&&!e.target.closest('.photo-frame'))spawnParticle(e.clientX,e.clientY,true);});
+
+let current=0;const TOTAL=23;
+
+seniors.forEach((s,i)=>{
+  const slide=document.createElement('div');slide.className='slide slide-senior';slide.id='slide-'+i;
+  const g1Src=s.grade1||'';
+  const g7Src=s.grade7||'';
+  const nowSrc=s.now||'';
+  const g1=g1Src?('<img src="'+g1Src+'" alt="grade1">'):'<div class="photo-empty">\\ud83d\\udcf7</div>';
+  const g7=g7Src?('<img src="'+g7Src+'" alt="grade7">'):'<div class="photo-empty">\\ud83d\\udcf7</div>';
+  const now=nowSrc?('<img src="'+nowSrc+'" alt="now">'):'<div class="photo-empty">\\ud83d\\udcf7</div>';
+  const badge=s.badge?('<div class="senior-badge">'+escHtml(s.badge)+'</div>'):'';
+  const voteBtns=VOTE_EMOJIS.map((e,j)=>'<button class="vote-btn" data-idx="'+i+'" data-emoji="'+j+'"><span class="vote-emoji">'+e+'</span><span class="vote-count">0</span><span class="vote-pct">0%</span></button>').join('');
+  const quizHtml=(s.quiz&&s.quiz.length)?'<button class="quiz-btn" onclick="toggleQuiz('+i+');event.stopPropagation()">🧠 קווין</button><div class="quiz-panel" id="quiz-panel-'+i+'"></div>':'';
+  slide.innerHTML='<div class="content"><p class="senior-number">'+(i+1)+' / 22</p>'+badge+'<div class="photos-row"><div class="photo-card"><div class="photo-frame" data-src="'+g1Src+'" data-tag="כיתה א׳">'+g1+'</div><span class="photo-tag">כיתה א׳</span></div><div class="photo-card"><div class="photo-frame" data-src="'+g7Src+'" data-tag="כיתה ז׳">'+g7+'</div><span class="photo-tag">כיתה ז׳</span></div><div class="photo-card"><div class="photo-frame" data-src="'+nowSrc+'" data-tag="היום">'+now+'</div><span class="photo-tag">היום</span></div></div><h2 class="senior-name">'+escHtml(s.name||'—')+'</h2><p class="senior-text">'+escHtml(s.text||'')+'</p><div class="vote-row"><div class="vote-buttons-row">'+voteBtns+'</div><span class="vote-hint">לחצו כדי להצביע</span></div>'+quizHtml+'</div>';
+  document.getElementById('slider').appendChild(slide);
+});
+
+document.querySelectorAll('.vote-btn').forEach(btn=>{
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    const idx=parseInt(this.dataset.idx);
+    const emojiIdx=parseInt(this.dataset.emoji);
+    castVote(idx,emojiIdx);
+  });
+});
+
+document.querySelectorAll('.photo-frame').forEach(frame=>{
+  frame.addEventListener('click',function(e){
+    e.stopPropagation();
+    const src=this.dataset.src;
+    const tag=this.dataset.tag;
+    if(src) openLightbox(src,tag);
+  });
+});
+
+function getSlideEl(idx){if(idx===0)return document.getElementById('slide-title');return document.querySelectorAll('.slide-senior')[idx-1];}
+function showSlide(idx,fromIdx){if(fromIdx!==null&&fromIdx!==idx){const from=getSlideEl(fromIdx);if(from){from.classList.add('exit-zoom');from.classList.remove('active');setTimeout(()=>from.classList.remove('exit-zoom'),450);}}const next=getSlideEl(idx);if(next)next.classList.add('active');}
+function go(d){goTo(current+d);}
+const quizState={};
+function toggleQuiz(i){const panel=document.getElementById('quiz-panel-'+i);if(!panel)return;const isOpen=panel.classList.toggle('open');if(isOpen&&seniors[i]&&seniors[i].quiz)renderQuizPanel(i,seniors[i].quiz);}
+function renderQuizPanel(i,questions){
+  const panel=document.getElementById('quiz-panel-'+i);if(!panel)return;
+  const state=quizState[i]||(quizState[i]={answered:questions.map(()=>null)});
+  const correct=state.answered.filter((a,qi)=>a!==null&&a===questions[qi].correct).length;
+  const done=state.answered.every(a=>a!==null);
+  let html='';
+  if(done)html+='<div class="quiz-score">'+correct+'/'+questions.length+' נכון 🍓</div>';
+  questions.forEach((q,qi)=>{
+    const ans=state.answered[qi];const answered=ans!==null;
+    html+='<div class="quiz-q"><div class="quiz-q-text">'+(qi+1)+'. '+escHtml(q.q)+'</div><div class="quiz-options">';
+    (q.answers||[]).forEach((opt,ai)=>{
+      let cls='quiz-opt';
+      if(answered){if(ai===q.correct)cls+=' correct';else if(ai===ans)cls+=' wrong';}
+      html+='<button class="'+cls+'"'+(answered?' disabled':'')+' data-si="'+i+'" data-qi="'+qi+'" data-ai="'+ai+'">'+escHtml(opt)+'</button>';
+    });
+    html+='</div></div>';
+  });
+  panel.innerHTML=html;
+  panel.querySelectorAll('.quiz-opt:not([disabled])').forEach(btn=>{
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      answerQuiz(parseInt(this.dataset.si),parseInt(this.dataset.qi),parseInt(this.dataset.ai));
+    });
+  });
+}
+function answerQuiz(i,qi,ai){
+  const s=seniors[i];if(!s||!s.quiz)return;
+  if(!quizState[i])quizState[i]={answered:s.quiz.map(()=>null)};
+  if(quizState[i].answered[qi]!==null)return;
+  quizState[i].answered[qi]=ai;
+  renderQuizPanel(i,s.quiz);
+}
+function goTo(i){if(i<0||i>=TOTAL)return;const prev=current;current=i;showSlide(current,prev);renderDots();document.getElementById('btn-prev').disabled=current===0;document.getElementById('btn-next').disabled=current===TOTAL-1;}
+function renderDots(){const dots=document.getElementById('dots');dots.innerHTML='';for(let i=0;i<TOTAL;i++){const d=document.createElement('div');d.className='dot'+(i===current?' active':'');d.onclick=()=>goTo(i);dots.appendChild(d);}}
+let tx=0;document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});document.addEventListener('touchend',e=>{const dx=tx-e.changedTouches[0].clientX;if(Math.abs(dx)>40)go(dx>0?1:-1);},{passive:true});document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')go(1);if(e.key==='ArrowRight')go(-1);});
+let isMuted=false;function toggleMute(){isMuted=!isMuted;document.getElementById('bg-audio').muted=isMuted;document.getElementById('mute-btn').textContent=isMuted?'🔇':'🔊';}
+const bgAudio=document.getElementById('bg-audio');
+function tryPlayAudio(){if(bgAudio.src){bgAudio.play().catch(()=>{});}}
+tryPlayAudio();
+document.addEventListener('click',tryPlayAudio,{once:true});
+document.addEventListener('touchstart',tryPlayAudio,{once:true});
+
+renderDots();document.getElementById('btn-prev').disabled=true;
+
+// initial vote load
+(async function initVotes(){
+  votesCache=await fetchAllVotes();
+  seniors.forEach((s,i)=>renderVoteUI(i));
+  // poll for updates every 8s so everyone sees fresh % while browsing
+  if(VOTES_ENABLED){
+    setInterval(async ()=>{
+      const fresh=await fetchAllVotes();
+      // merge taking max per senior/emoji to avoid overwriting a vote just cast locally
+      Object.keys(fresh).forEach(i=>{
+        const local=votesCache[i]||[0,0,0];
+        votesCache[i]=local.map((v,idx)=>Math.max(v,fresh[i][idx]||0));
+      });
+      seniors.forEach((s,i)=>renderVoteUI(i));
+    },8000);
+  }
+})();
+<\/script>
+</body></html>`;
+  const blob=new Blob([html],{type:'text/html'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='התותים-של-2026.html';a.click();
+}
+
+
+// ── INIT ──
+function init(){
+  const sel=document.getElementById('editor-select');
+  seniors.forEach((s,i)=>{const opt=document.createElement('option');opt.value=i;opt.textContent='תות '+(i+1);sel.appendChild(opt);});
+  renderSlides();
+  // explicitly activate title slide
+  document.querySelectorAll('.slide').forEach(s=>s.classList.remove('active'));
+  document.getElementById('slide-title').classList.add('active');
+  current=0;
+  renderDots();
+  document.getElementById('btn-prev').disabled=true;
+  document.getElementById('btn-next').disabled=false;
+}
+init();
+</script>
+</body>
+</html>
